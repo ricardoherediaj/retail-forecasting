@@ -1,0 +1,6 @@
+outs:
+- md5: cbaa2c79173d687db2269724eb5426e5
+  size: 950272
+  isexec: true
+  hash: md5
+  path: supermarket.db
