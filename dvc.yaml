@@ -1,0 +1,10 @@
+stages:
+  setup:
+    cmd: python -m src.setup
+    deps:
+      - src/setup.py
+      - paths.py
+      - data/raw/supermarket.db
+    outs:
+      - data/transformed/work.parquet
+      - data/validation/validation.parquet

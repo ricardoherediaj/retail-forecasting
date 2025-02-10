@@ -1,0 +1,27 @@
+schema: '2.0'
+stages:
+  setup:
+    cmd: python -m src.setup
+    deps:
+    - path: data/raw/supermarket.db
+      hash: md5
+      md5: cbaa2c79173d687db2269724eb5426e5
+      size: 950272
+      isexec: true
+    - path: paths.py
+      hash: md5
+      md5: 02765bbfdd575ece1a857ba9e1a8879d
+      size: 772
+    - path: src/setup.py
+      hash: md5
+      md5: 7f9dbf180e005572689b4f93842f9786
+      size: 4101
+    outs:
+    - path: data/transformed/work.parquet
+      hash: md5
+      md5: d8f807cf42984b0622369e4872120d9c
+      size: 60598
+    - path: data/validation/validation.parquet
+      hash: md5
+      md5: f60d6ed102efe8d7b4390d2e1f50749a
+      size: 12810
