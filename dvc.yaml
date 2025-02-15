@@ -8,3 +8,13 @@ stages:
     outs:
       - data/transformed/work.parquet
       - data/validation/validation.parquet
+
+  preprocess:
+    cmd: python -m src.preprocessing
+    deps:
+      - src/preprocessing.py
+      - data/transformed/work.parquet
+    outs:
+      - data/transformed/work_result_quality.parquet
+      - data/transformed/num_result_quality.parquet
+      - data/transformed/cat_result_quality.parquet
