@@ -18,3 +18,12 @@ stages:
       - data/transformed/work_result_quality.parquet
       - data/transformed/num_result_quality.parquet
       - data/transformed/cat_result_quality.parquet
+
+  feature_engineering:
+    cmd: python -m src.feature_engineering
+    deps:
+      - src/feature_engineering.py
+      - data/transformed/num_result_quality.parquet
+      - data/transformed/cat_result_quality.parquet
+    outs:
+      - data/transformed/df_transformed.parquet

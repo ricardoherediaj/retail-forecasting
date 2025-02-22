@@ -7,6 +7,8 @@ RAW_DATA_DIR = PARENT_DIR / 'data' / 'raw'
 TRANSFORMED_DATA_DIR = PARENT_DIR / 'data' / 'transformed'
 DATA_CACHE_DIR = PARENT_DIR / 'data' / 'cache'
 VALIDATION_DIR = PARENT_DIR / 'data' / 'validation'
+TESTS_DIR = PARENT_DIR / 'tests'
+TESTS_DATA_DIR = TESTS_DIR / 'data'
 
 MODELS_DIR = PARENT_DIR / 'models'
 
