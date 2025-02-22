@@ -10,8 +10,8 @@ stages:
       isexec: true
     - path: paths.py
       hash: md5
-      md5: 02765bbfdd575ece1a857ba9e1a8879d
-      size: 772
+      md5: 171a1f6d93e089b91edf8434510af00c
+      size: 841
     - path: src/setup.py
       hash: md5
       md5: 7f9dbf180e005572689b4f93842f9786
@@ -25,3 +25,47 @@ stages:
       hash: md5
       md5: f60d6ed102efe8d7b4390d2e1f50749a
       size: 12810
+  preprocess:
+    cmd: python -m src.preprocessing
+    deps:
+    - path: data/transformed/work.parquet
+      hash: md5
+      md5: d8f807cf42984b0622369e4872120d9c
+      size: 60598
+    - path: src/preprocessing.py
+      hash: md5
+      md5: 340f7191d76231ee1b10df22aa217e71
+      size: 2836
+    outs:
+    - path: data/transformed/cat_result_quality.parquet
+      hash: md5
+      md5: b8a50c30f134945f455859e147cd6008
+      size: 30227
+    - path: data/transformed/num_result_quality.parquet
+      hash: md5
+      md5: 8e071297800e4b9e72a7c8e21e5c5e96
+      size: 41854
+    - path: data/transformed/work_result_quality.parquet
+      hash: md5
+      md5: a386836377c4b245fe0fdcdd0964eff5
+      size: 59618
+  feature_engineering:
+    cmd: python -m src.feature_engineering
+    deps:
+    - path: data/transformed/cat_result_quality.parquet
+      hash: md5
+      md5: b8a50c30f134945f455859e147cd6008
+      size: 30227
+    - path: data/transformed/num_result_quality.parquet
+      hash: md5
+      md5: 8e071297800e4b9e72a7c8e21e5c5e96
+      size: 41854
+    - path: src/feature_engineering.py
+      hash: md5
+      md5: 952b5d8e9df5179625a6edc113c0e281
+      size: 10434
+    outs:
+    - path: data/transformed/df_transformed.parquet
+      hash: md5
+      md5: ec5094fba7aa0eb63d3da94251897fb7
+      size: 1556148
