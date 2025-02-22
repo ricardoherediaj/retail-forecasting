@@ -11,3 +11,4 @@ wheels/
 data/raw/*.db
 data/transformed/*.parquet
 data/validation/*.parquet
+tests/data/*.parquet
