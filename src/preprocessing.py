@@ -20,23 +20,32 @@ def convert_categorical(df: pd.DataFrame) -> pd.DataFrame:
     df[categorical_cols] = df[categorical_cols].astype('category')
     return df
 
+def impute_mode_by_product(df: pd.DataFrame) -> pd.DataFrame:
+    """Impute missing prices using mode by product."""
+    # Create a copy to avoid modifying the original
+    df = df.copy()
+    
+    # Group by item_id and fill missing prices with mode
+    price_modes = df.groupby('item_id')['sell_price'].transform(lambda x: x.mode().iloc[0])
+    df.loc[df['sell_price'].isna(), 'sell_price'] = price_modes[df['sell_price'].isna()]
+    
+    return df
+
 def handle_missing_values(df: pd.DataFrame) -> pd.DataFrame:
     """Handle missing values in the dataset."""
+    # Create a copy to avoid modifying the original
+    df = df.copy()
+    
     # Remove event_name_2 and event_type_2 due to high missingness
-    df.drop(columns=['event_name_2', 'event_type_2'], inplace=True)
+    df = df.drop(columns=['event_name_2', 'event_type_2'])
     
     # Fill missing events with 'No_event'
     event_cols = ['event_name_1', 'event_type_1']
     df[event_cols] = df[event_cols].fillna('No_event')
     
-    # Handle missing sell_price values by imputing mode by product
-    def impute_mode_by_product(group):
-        mode_price = group['sell_price'].mode()[0]
-        group.loc[group.sell_price.isna(), 'sell_price'] = mode_price
-        return group
+    # Handle missing sell_price values
+    df = impute_mode_by_product(df)
     
-    # Select only the relevant columns after grouping
-    df = df.groupby('item_id', group_keys=False).apply(impute_mode_by_product)
     return df
 
 def split_numeric_categorical(df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:

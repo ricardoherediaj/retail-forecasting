@@ -18,23 +18,22 @@ from src.setup import (
     save_splits
 )
 
-# Define test data paths
-TEST_DATA_DIR = Path(__file__).parent / 'data'
+from paths import RAW_DATA_DIR
 
 @pytest.fixture(scope="module")
 def test_engine():
-    """Create a test database connection."""
-    db_path = TEST_DATA_DIR / 'supermarket.db'
+    """Create a test database connection using the actual database."""
+    db_path = RAW_DATA_DIR / 'supermarket.db'
     return sa.create_engine('sqlite:///' + str(db_path))
 
 @pytest.fixture(scope="module")
 def sample_tables(test_engine):
-    """Load sample tables from test database."""
+    """Load sample tables from the actual database."""
     return load_tables(test_engine)
 
 def test_connect_database():
-    """Test database connection."""
-    engine = connect_database(db_filename=str(TEST_DATA_DIR / 'supermarket.db'))
+    """Test database connection using the actual database."""
+    engine = connect_database(db_filename='supermarket.db')  # Use default path from setup.py
     assert isinstance(engine, sa.engine.Engine)
     
     # Test if we can query the database
@@ -101,12 +100,12 @@ def test_create_time_splits(sample_tables):
     # Check all data is accounted for
     assert len(merged_df) == len(work) + len(validation)
 
-def test_save_splits(tmp_path):
+def test_save_splits(tmp_path, sample_tables):
     """Test saving splits to parquet files."""
-    # Create sample data
-    dates = pd.date_range('2015-01-01', '2015-12-31')
-    work = pd.DataFrame({'value': range(len(dates))}, index=dates[:335])
-    validation = pd.DataFrame({'value': range(len(dates))}, index=dates[335:])
+    # Get real data using the actual pipeline logic
+    calendar, sales, prices = sample_tables
+    merged_df = merge_tables(calendar, sales, prices)
+    work, validation = create_time_splits(merged_df)
     
     # Create temporary directories
     temp_transformed = tmp_path / 'transformed'
@@ -133,8 +132,11 @@ def test_save_splits(tmp_path):
         work_loaded = pd.read_parquet(temp_transformed / 'work.parquet')
         validation_loaded = pd.read_parquet(temp_validation / 'validation.parquet')
         
+        # Verify data integrity
         assert len(work_loaded) == len(work)
         assert len(validation_loaded) == len(validation)
+        assert work_loaded.index.max() <= pd.Timestamp('2015-11-30')
+        assert validation_loaded.index.min() >= pd.Timestamp('2015-12-01')
         
     finally:
         # Restore original paths
