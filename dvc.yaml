@@ -27,3 +27,12 @@ stages:
       - data/transformed/cat_result_quality.parquet
     outs:
       - data/transformed/df_transformed.parquet
+
+  variable_preselection:
+    cmd: python -m src.variable_preselection
+    deps:
+      - src/variable_preselection.py
+      - data/transformed/df_transformed.parquet
+    outs:
+      - data/transformed/x_preselection.parquet
+      - data/transformed/y_preselection.parquet
