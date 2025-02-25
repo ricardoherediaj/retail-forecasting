@@ -1,13 +1,56 @@
 # Python-generated files
 __pycache__/
-*.py[oc]
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
 build/
+develop-eggs/
 dist/
-wheels/
-*.egg-info
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
 
 # Virtual environments
-.venv
+venv/
+.venv/
+ENV/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# DVC
+/data
+.dvc/cache
+.dvc/tmp
+.dvc/plots
+
+# Metaflow
+.metaflow/
+metaflow_card_cache/
+.metaflow.log
+metaflow.s3.*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Data
 data/raw/*.db
 data/transformed/*.parquet
 data/validation/*.parquet
