@@ -1,0 +1,761 @@
+2025-03-03 21:59:34,844 - __main__ - INFO - Starting main script execution
+2025-03-03 21:59:34,845 - __main__ - INFO - Starting data processing pipeline
+2025-03-03 21:59:34,845 - __main__ - INFO - Attempting to connect to database at: /Users/ricardoheredia/Desktop/retail-forecasting/data/raw/supermarket.db
+2025-03-03 21:59:34,881 - __main__ - INFO - Database connection established successfully
+2025-03-03 21:59:34,886 - __main__ - INFO - Starting to load tables from database
+2025-03-03 21:59:35,505 - __main__ - INFO - All tables loaded successfully
+2025-03-03 21:59:35,506 - __main__ - INFO - 
+Calendar data preview:
+2025-03-03 21:59:35,530 - __main__ - INFO - 
+         date  wm_yr_wk    weekday  wday  month  ...      d event_name_1 event_type_1 event_name_2 event_type_2
+0  2013-01-01     11249    Tuesday     4      1  ...  d_704      NewYear     National         None         None
+1  2013-01-02     11249  Wednesday     5      1  ...  d_705         None         None         None         None
+2  2013-01-03     11249   Thursday     6      1  ...  d_706         None         None         None         None
+3  2013-01-04     11249     Friday     7      1  ...  d_707         None         None         None         None
+4  2013-01-05     11250   Saturday     1      1  ...  d_708         None         None         None         None
+
+[5 rows x 11 columns]
+2025-03-03 21:59:35,531 - __main__ - INFO - 
+Sales data preview:
+2025-03-03 21:59:35,752 - __main__ - INFO - 
+                            id      item_id  dept_id cat_id  ... d_1795 d_1796  d_1797  d_1798
+0  FOODS_3_090_CA_3_validation  FOODS_3_090  FOODS_3  FOODS  ...      6      0       0       0
+1  FOODS_3_120_CA_3_validation  FOODS_3_120  FOODS_3  FOODS  ...    104     73      76      97
+2  FOODS_3_202_CA_3_validation  FOODS_3_202  FOODS_3  FOODS  ...     27     13      26      47
+3  FOODS_3_252_CA_3_validation  FOODS_3_252  FOODS_3  FOODS  ...     32     29      34      27
+4  FOODS_3_288_CA_3_validation  FOODS_3_288  FOODS_3  FOODS  ...     40     31      46      36
+
+[5 rows x 1101 columns]
+2025-03-03 21:59:35,753 - __main__ - INFO - 
+Prices data preview:
+2025-03-03 21:59:35,794 - __main__ - INFO - 
+  store_id      item_id  wm_yr_wk  sell_price
+0     CA_3  FOODS_3_090     11249        1.25
+1     CA_3  FOODS_3_090     11250        1.25
+2     CA_3  FOODS_3_090     11251        1.25
+3     CA_3  FOODS_3_090     11252        1.25
+4     CA_3  FOODS_3_090     11301        1.38
+2025-03-03 21:59:35,794 - __main__ - INFO - Transforming sales data from wide to long format
+2025-03-03 21:59:36,014 - __main__ - INFO - Sales data transformation completed
+2025-03-03 21:59:36,029 - __main__ - INFO - 
+Transformed sales data preview:
+2025-03-03 21:59:36,058 - __main__ - INFO - 
+       item_id  dept_id cat_id store_id state_id      d  sales
+0  FOODS_3_090  FOODS_3  FOODS     CA_3       CA  d_704      0
+1  FOODS_3_120  FOODS_3  FOODS     CA_3       CA  d_704      0
+2  FOODS_3_202  FOODS_3  FOODS     CA_3       CA  d_704     20
+3  FOODS_3_252  FOODS_3  FOODS     CA_3       CA  d_704     34
+4  FOODS_3_288  FOODS_3  FOODS     CA_3       CA  d_704      0
+2025-03-03 21:59:36,058 - __main__ - INFO - Starting table merging process
+2025-03-03 21:59:36,311 - __main__ - INFO - Table merging completed successfully
+2025-03-03 21:59:36,311 - __main__ - INFO - 
+Merged data preview:
+2025-03-03 21:59:36,343 - __main__ - INFO - 
+           state_id store_id  dept_id cat_id  ... event_name_1  event_type_1 event_name_2  event_type_2
+date                                          ...                                                      
+2013-01-01       CA     CA_3  FOODS_3  FOODS  ...      NewYear      National         None          None
+2013-01-01       CA     CA_3  FOODS_3  FOODS  ...      NewYear      National         None          None
+2013-01-01       CA     CA_3  FOODS_3  FOODS  ...      NewYear      National         None          None
+2013-01-01       CA     CA_3  FOODS_3  FOODS  ...      NewYear      National         None          None
+2013-01-01       CA     CA_3  FOODS_3  FOODS  ...      NewYear      National         None          None
+
+[5 rows x 17 columns]
+2025-03-03 21:59:36,343 - __main__ - INFO - Creating training/validation split
+2025-03-03 21:59:36,348 - __main__ - INFO - Split completed - Training shape: (21280, 17), Validation shape: (620, 17)
+2025-03-03 21:59:36,348 - __main__ - INFO - 
+Training data preview:
+2025-03-03 21:59:36,387 - __main__ - INFO - 
+           state_id store_id  dept_id cat_id  ... event_name_1  event_type_1 event_name_2  event_type_2
+date                                          ...                                                      
+2013-01-01       CA     CA_3  FOODS_3  FOODS  ...      NewYear      National         None          None
+2013-01-01       CA     CA_3  FOODS_3  FOODS  ...      NewYear      National         None          None
+2013-01-01       CA     CA_3  FOODS_3  FOODS  ...      NewYear      National         None          None
+2013-01-01       CA     CA_3  FOODS_3  FOODS  ...      NewYear      National         None          None
+2013-01-01       CA     CA_3  FOODS_3  FOODS  ...      NewYear      National         None          None
+
+[5 rows x 17 columns]
+2025-03-03 21:59:36,388 - __main__ - INFO - 
+Validation data preview:
+2025-03-03 21:59:36,420 - __main__ - INFO - 
+           state_id store_id  dept_id cat_id  ... event_name_1  event_type_1 event_name_2  event_type_2
+date                                          ...                                                      
+2015-12-01       CA     CA_3  FOODS_3  FOODS  ...         None          None         None          None
+2015-12-01       CA     CA_3  FOODS_3  FOODS  ...         None          None         None          None
+2015-12-01       CA     CA_3  FOODS_3  FOODS  ...         None          None         None          None
+2015-12-01       CA     CA_3  FOODS_3  FOODS  ...         None          None         None          None
+2015-12-01       CA     CA_3  FOODS_3  FOODS  ...         None          None         None          None
+
+[5 rows x 17 columns]
+2025-03-03 21:59:36,420 - __main__ - INFO - Saving datasets to temp directory
+2025-03-03 21:59:36,506 - __main__ - INFO - Validation dataset saved to: /Users/ricardoheredia/Desktop/retail-forecasting/src/temp/validation.parquet
+2025-03-03 21:59:36,734 - __main__ - INFO - Training dataset saved to: /Users/ricardoheredia/Desktop/retail-forecasting/src/temp/work.parquet
+2025-03-03 21:59:36,734 - __main__ - INFO - Data processing pipeline completed successfully
+2025-03-03 21:59:36,755 - __main__ - INFO - Script execution completed successfully
+2025-03-03 22:12:24,062 - src.data_loader - INFO - Testing project paths generation
+2025-03-03 22:12:24,062 - src.data_loader - INFO - Testing project paths generation
+2025-03-03 22:12:24,063 - src.data_loader - INFO - Project paths test completed successfully
+2025-03-03 22:12:24,063 - src.data_loader - INFO - Project paths test completed successfully
+2025-03-03 22:12:24,065 - src.data_loader - INFO - Testing database connection
+2025-03-03 22:12:24,065 - src.data_loader - INFO - Testing database connection
+2025-03-03 22:12:24,066 - src.data_loader - INFO - Attempting to connect to database at: /Users/ricardoheredia/Desktop/retail-forecasting/data/raw/supermarket.db
+2025-03-03 22:12:24,066 - src.data_loader - INFO - Attempting to connect to database at: /Users/ricardoheredia/Desktop/retail-forecasting/data/raw/supermarket.db
+2025-03-03 22:12:24,088 - src.data_loader - INFO - Database connection established successfully
+2025-03-03 22:12:24,088 - src.data_loader - INFO - Database connection established successfully
+2025-03-03 22:12:24,088 - src.data_loader - INFO - Database connection test successful
+2025-03-03 22:12:24,088 - src.data_loader - INFO - Database connection test successful
+2025-03-03 22:12:24,089 - src.data_loader - INFO - Testing connection to non-existent database
+2025-03-03 22:12:24,089 - src.data_loader - INFO - Testing connection to non-existent database
+2025-03-03 22:12:24,097 - src.data_loader - INFO - Attempting to connect to database at: nonexistent.db
+2025-03-03 22:12:24,097 - src.data_loader - INFO - Attempting to connect to database at: nonexistent.db
+2025-03-03 22:12:24,098 - src.data_loader - ERROR - Database file not found at: nonexistent.db
+2025-03-03 22:12:24,098 - src.data_loader - ERROR - Database file not found at: nonexistent.db
+2025-03-03 22:12:24,098 - src.data_loader - INFO - Non-existent database test successful
+2025-03-03 22:12:24,098 - src.data_loader - INFO - Non-existent database test successful
+2025-03-03 22:12:24,117 - src.data_loader - INFO - Testing sales data transformation
+2025-03-03 22:12:24,117 - src.data_loader - INFO - Testing sales data transformation
+2025-03-03 22:12:24,118 - src.data_loader - INFO - Transforming sales data from wide to long format
+2025-03-03 22:12:24,118 - src.data_loader - INFO - Transforming sales data from wide to long format
+2025-03-03 22:12:24,131 - src.data_loader - INFO - Sales data transformation completed
+2025-03-03 22:12:24,131 - src.data_loader - INFO - Sales data transformation completed
+2025-03-03 22:12:24,131 - src.data_loader - INFO - 
+Transformed sales data preview:
+2025-03-03 22:12:24,131 - src.data_loader - INFO - 
+Transformed sales data preview:
+2025-03-03 22:12:24,148 - src.data_loader - INFO - 
+  item_id dept_id cat_id store_id state_id    d  sales
+0  ITEM_1  DEPT_1  CAT_1  STORE_1  STATE_1  d_1     10
+1  ITEM_2  DEPT_2  CAT_2  STORE_2  STATE_2  d_1     20
+2  ITEM_1  DEPT_1  CAT_1  STORE_1  STATE_1  d_2     15
+3  ITEM_2  DEPT_2  CAT_2  STORE_2  STATE_2  d_2     25
+2025-03-03 22:12:24,148 - src.data_loader - INFO - 
+  item_id dept_id cat_id store_id state_id    d  sales
+0  ITEM_1  DEPT_1  CAT_1  STORE_1  STATE_1  d_1     10
+1  ITEM_2  DEPT_2  CAT_2  STORE_2  STATE_2  d_1     20
+2  ITEM_1  DEPT_1  CAT_1  STORE_1  STATE_1  d_2     15
+3  ITEM_2  DEPT_2  CAT_2  STORE_2  STATE_2  d_2     25
+2025-03-03 22:12:24,148 - src.data_loader - INFO - Sales transformation test completed successfully
+2025-03-03 22:12:24,148 - src.data_loader - INFO - Sales transformation test completed successfully
+2025-03-03 22:12:24,154 - src.data_loader - INFO - Testing table merging
+2025-03-03 22:12:24,154 - src.data_loader - INFO - Testing table merging
+2025-03-03 22:12:24,154 - src.data_loader - INFO - Transforming sales data from wide to long format
+2025-03-03 22:12:24,154 - src.data_loader - INFO - Transforming sales data from wide to long format
+2025-03-03 22:12:24,161 - src.data_loader - INFO - Sales data transformation completed
+2025-03-03 22:12:24,161 - src.data_loader - INFO - Sales data transformation completed
+2025-03-03 22:12:24,161 - src.data_loader - INFO - 
+Transformed sales data preview:
+2025-03-03 22:12:24,161 - src.data_loader - INFO - 
+Transformed sales data preview:
+2025-03-03 22:12:24,169 - src.data_loader - INFO - 
+  item_id dept_id cat_id store_id state_id    d  sales
+0  ITEM_1  DEPT_1  CAT_1  STORE_1  STATE_1  d_1     10
+1  ITEM_2  DEPT_2  CAT_2  STORE_2  STATE_2  d_1     20
+2  ITEM_1  DEPT_1  CAT_1  STORE_1  STATE_1  d_2     15
+3  ITEM_2  DEPT_2  CAT_2  STORE_2  STATE_2  d_2     25
+2025-03-03 22:12:24,169 - src.data_loader - INFO - 
+  item_id dept_id cat_id store_id state_id    d  sales
+0  ITEM_1  DEPT_1  CAT_1  STORE_1  STATE_1  d_1     10
+1  ITEM_2  DEPT_2  CAT_2  STORE_2  STATE_2  d_1     20
+2  ITEM_1  DEPT_1  CAT_1  STORE_1  STATE_1  d_2     15
+3  ITEM_2  DEPT_2  CAT_2  STORE_2  STATE_2  d_2     25
+2025-03-03 22:12:24,169 - src.data_loader - INFO - Starting table merging process
+2025-03-03 22:12:24,169 - src.data_loader - INFO - Starting table merging process
+2025-03-03 22:12:24,185 - src.data_loader - INFO - Table merging completed successfully
+2025-03-03 22:12:24,185 - src.data_loader - INFO - Table merging completed successfully
+2025-03-03 22:12:24,185 - src.data_loader - INFO - 
+Merged data preview:
+2025-03-03 22:12:24,185 - src.data_loader - INFO - 
+Merged data preview:
+2025-03-03 22:12:24,209 - src.data_loader - INFO - 
+           state_id store_id dept_id  ... event_type_1 event_name_2  event_type_2
+date                                  ...                                        
+2015-01-01  STATE_1  STORE_1  DEPT_1  ...         None         None          None
+2015-01-01  STATE_2  STORE_2  DEPT_2  ...         None         None          None
+2015-01-02  STATE_1  STORE_1  DEPT_1  ...         None         None          None
+2015-01-02  STATE_2  STORE_2  DEPT_2  ...         None         None          None
+
+[4 rows x 17 columns]
+2025-03-03 22:12:24,209 - src.data_loader - INFO - 
+           state_id store_id dept_id  ... event_type_1 event_name_2  event_type_2
+date                                  ...                                        
+2015-01-01  STATE_1  STORE_1  DEPT_1  ...         None         None          None
+2015-01-01  STATE_2  STORE_2  DEPT_2  ...         None         None          None
+2015-01-02  STATE_1  STORE_1  DEPT_1  ...         None         None          None
+2015-01-02  STATE_2  STORE_2  DEPT_2  ...         None         None          None
+
+[4 rows x 17 columns]
+2025-03-03 22:12:24,210 - src.data_loader - INFO - Table merging test completed successfully
+2025-03-03 22:12:24,210 - src.data_loader - INFO - Table merging test completed successfully
+2025-03-03 22:12:24,214 - src.data_loader - INFO - Testing train/val split
+2025-03-03 22:12:24,214 - src.data_loader - INFO - Testing train/val split
+2025-03-03 22:12:24,215 - src.data_loader - INFO - Transforming sales data from wide to long format
+2025-03-03 22:12:24,215 - src.data_loader - INFO - Transforming sales data from wide to long format
+2025-03-03 22:12:24,221 - src.data_loader - INFO - Sales data transformation completed
+2025-03-03 22:12:24,221 - src.data_loader - INFO - Sales data transformation completed
+2025-03-03 22:12:24,222 - src.data_loader - INFO - 
+Transformed sales data preview:
+2025-03-03 22:12:24,222 - src.data_loader - INFO - 
+Transformed sales data preview:
+2025-03-03 22:12:24,229 - src.data_loader - INFO - 
+  item_id dept_id cat_id store_id state_id    d  sales
+0  ITEM_1  DEPT_1  CAT_1  STORE_1  STATE_1  d_1     10
+1  ITEM_2  DEPT_2  CAT_2  STORE_2  STATE_2  d_1     20
+2  ITEM_1  DEPT_1  CAT_1  STORE_1  STATE_1  d_2     15
+3  ITEM_2  DEPT_2  CAT_2  STORE_2  STATE_2  d_2     25
+2025-03-03 22:12:24,229 - src.data_loader - INFO - 
+  item_id dept_id cat_id store_id state_id    d  sales
+0  ITEM_1  DEPT_1  CAT_1  STORE_1  STATE_1  d_1     10
+1  ITEM_2  DEPT_2  CAT_2  STORE_2  STATE_2  d_1     20
+2  ITEM_1  DEPT_1  CAT_1  STORE_1  STATE_1  d_2     15
+3  ITEM_2  DEPT_2  CAT_2  STORE_2  STATE_2  d_2     25
+2025-03-03 22:12:24,230 - src.data_loader - INFO - Starting table merging process
+2025-03-03 22:12:24,230 - src.data_loader - INFO - Starting table merging process
+2025-03-03 22:12:24,251 - src.data_loader - INFO - Table merging completed successfully
+2025-03-03 22:12:24,251 - src.data_loader - INFO - Table merging completed successfully
+2025-03-03 22:12:24,251 - src.data_loader - INFO - 
+Merged data preview:
+2025-03-03 22:12:24,251 - src.data_loader - INFO - 
+Merged data preview:
+2025-03-03 22:12:24,270 - src.data_loader - INFO - 
+           state_id store_id dept_id  ... event_type_1 event_name_2  event_type_2
+date                                  ...                                        
+2015-12-01  STATE_1  STORE_1  DEPT_1  ...         None         None          None
+2015-12-01  STATE_2  STORE_2  DEPT_2  ...         None         None          None
+2015-12-02  STATE_1  STORE_1  DEPT_1  ...         None         None          None
+2015-12-02  STATE_2  STORE_2  DEPT_2  ...         None         None          None
+
+[4 rows x 17 columns]
+2025-03-03 22:12:24,270 - src.data_loader - INFO - 
+           state_id store_id dept_id  ... event_type_1 event_name_2  event_type_2
+date                                  ...                                        
+2015-12-01  STATE_1  STORE_1  DEPT_1  ...         None         None          None
+2015-12-01  STATE_2  STORE_2  DEPT_2  ...         None         None          None
+2015-12-02  STATE_1  STORE_1  DEPT_1  ...         None         None          None
+2015-12-02  STATE_2  STORE_2  DEPT_2  ...         None         None          None
+
+[4 rows x 17 columns]
+2025-03-03 22:12:24,271 - src.data_loader - INFO - Creating training/validation split
+2025-03-03 22:12:24,271 - src.data_loader - INFO - Creating training/validation split
+2025-03-03 22:12:24,271 - src.data_loader - INFO - Split completed - Training shape: (0, 17), Validation shape: (4, 17)
+2025-03-03 22:12:24,271 - src.data_loader - INFO - Split completed - Training shape: (0, 17), Validation shape: (4, 17)
+2025-03-03 22:12:24,271 - src.data_loader - INFO - 
+Training data preview:
+2025-03-03 22:12:24,271 - src.data_loader - INFO - 
+Training data preview:
+2025-03-03 22:12:24,272 - src.data_loader - INFO - 
+Empty DataFrame
+Columns: [state_id, store_id, dept_id, cat_id, item_id, wm_yr_wk, d, sales, sell_price, year, month, wday, weekday, event_name_1, event_type_1, event_name_2, event_type_2]
+Index: []
+2025-03-03 22:12:24,272 - src.data_loader - INFO - 
+Empty DataFrame
+Columns: [state_id, store_id, dept_id, cat_id, item_id, wm_yr_wk, d, sales, sell_price, year, month, wday, weekday, event_name_1, event_type_1, event_name_2, event_type_2]
+Index: []
+2025-03-03 22:12:24,272 - src.data_loader - INFO - 
+Validation data preview:
+2025-03-03 22:12:24,272 - src.data_loader - INFO - 
+Validation data preview:
+2025-03-03 22:12:24,286 - src.data_loader - INFO - 
+           state_id store_id dept_id  ... event_type_1 event_name_2  event_type_2
+date                                  ...                                        
+2015-12-01  STATE_1  STORE_1  DEPT_1  ...         None         None          None
+2015-12-01  STATE_2  STORE_2  DEPT_2  ...         None         None          None
+2015-12-02  STATE_1  STORE_1  DEPT_1  ...         None         None          None
+2015-12-02  STATE_2  STORE_2  DEPT_2  ...         None         None          None
+
+[4 rows x 17 columns]
+2025-03-03 22:12:24,286 - src.data_loader - INFO - 
+           state_id store_id dept_id  ... event_type_1 event_name_2  event_type_2
+date                                  ...                                        
+2015-12-01  STATE_1  STORE_1  DEPT_1  ...         None         None          None
+2015-12-01  STATE_2  STORE_2  DEPT_2  ...         None         None          None
+2015-12-02  STATE_1  STORE_1  DEPT_1  ...         None         None          None
+2015-12-02  STATE_2  STORE_2  DEPT_2  ...         None         None          None
+
+[4 rows x 17 columns]
+2025-03-03 22:12:24,387 - src.data_loader - INFO - Testing dataset saving
+2025-03-03 22:12:24,387 - src.data_loader - INFO - Testing dataset saving
+2025-03-03 22:12:24,387 - src.data_loader - INFO - Transforming sales data from wide to long format
+2025-03-03 22:12:24,387 - src.data_loader - INFO - Transforming sales data from wide to long format
+2025-03-03 22:12:24,391 - src.data_loader - INFO - Sales data transformation completed
+2025-03-03 22:12:24,391 - src.data_loader - INFO - Sales data transformation completed
+2025-03-03 22:12:24,391 - src.data_loader - INFO - 
+Transformed sales data preview:
+2025-03-03 22:12:24,391 - src.data_loader - INFO - 
+Transformed sales data preview:
+2025-03-03 22:12:24,398 - src.data_loader - INFO - 
+  item_id dept_id cat_id store_id state_id    d  sales
+0  ITEM_1  DEPT_1  CAT_1  STORE_1  STATE_1  d_1     10
+1  ITEM_2  DEPT_2  CAT_2  STORE_2  STATE_2  d_1     20
+2  ITEM_1  DEPT_1  CAT_1  STORE_1  STATE_1  d_2     15
+3  ITEM_2  DEPT_2  CAT_2  STORE_2  STATE_2  d_2     25
+2025-03-03 22:12:24,398 - src.data_loader - INFO - 
+  item_id dept_id cat_id store_id state_id    d  sales
+0  ITEM_1  DEPT_1  CAT_1  STORE_1  STATE_1  d_1     10
+1  ITEM_2  DEPT_2  CAT_2  STORE_2  STATE_2  d_1     20
+2  ITEM_1  DEPT_1  CAT_1  STORE_1  STATE_1  d_2     15
+3  ITEM_2  DEPT_2  CAT_2  STORE_2  STATE_2  d_2     25
+2025-03-03 22:12:24,398 - src.data_loader - INFO - Starting table merging process
+2025-03-03 22:12:24,398 - src.data_loader - INFO - Starting table merging process
+2025-03-03 22:12:24,403 - src.data_loader - INFO - Table merging completed successfully
+2025-03-03 22:12:24,403 - src.data_loader - INFO - Table merging completed successfully
+2025-03-03 22:12:24,403 - src.data_loader - INFO - 
+Merged data preview:
+2025-03-03 22:12:24,403 - src.data_loader - INFO - 
+Merged data preview:
+2025-03-03 22:12:24,422 - src.data_loader - INFO - 
+           state_id store_id dept_id  ... event_type_1 event_name_2  event_type_2
+date                                  ...                                        
+2015-01-01  STATE_1  STORE_1  DEPT_1  ...         None         None          None
+2015-01-01  STATE_2  STORE_2  DEPT_2  ...         None         None          None
+2015-01-02  STATE_1  STORE_1  DEPT_1  ...         None         None          None
+2015-01-02  STATE_2  STORE_2  DEPT_2  ...         None         None          None
+
+[4 rows x 17 columns]
+2025-03-03 22:12:24,422 - src.data_loader - INFO - 
+           state_id store_id dept_id  ... event_type_1 event_name_2  event_type_2
+date                                  ...                                        
+2015-01-01  STATE_1  STORE_1  DEPT_1  ...         None         None          None
+2015-01-01  STATE_2  STORE_2  DEPT_2  ...         None         None          None
+2015-01-02  STATE_1  STORE_1  DEPT_1  ...         None         None          None
+2015-01-02  STATE_2  STORE_2  DEPT_2  ...         None         None          None
+
+[4 rows x 17 columns]
+2025-03-03 22:12:24,422 - src.data_loader - INFO - Creating training/validation split
+2025-03-03 22:12:24,422 - src.data_loader - INFO - Creating training/validation split
+2025-03-03 22:12:24,423 - src.data_loader - INFO - Split completed - Training shape: (4, 17), Validation shape: (0, 17)
+2025-03-03 22:12:24,423 - src.data_loader - INFO - Split completed - Training shape: (4, 17), Validation shape: (0, 17)
+2025-03-03 22:12:24,423 - src.data_loader - INFO - 
+Training data preview:
+2025-03-03 22:12:24,423 - src.data_loader - INFO - 
+Training data preview:
+2025-03-03 22:12:24,440 - src.data_loader - INFO - 
+           state_id store_id dept_id  ... event_type_1 event_name_2  event_type_2
+date                                  ...                                        
+2015-01-01  STATE_1  STORE_1  DEPT_1  ...         None         None          None
+2015-01-01  STATE_2  STORE_2  DEPT_2  ...         None         None          None
+2015-01-02  STATE_1  STORE_1  DEPT_1  ...         None         None          None
+2015-01-02  STATE_2  STORE_2  DEPT_2  ...         None         None          None
+
+[4 rows x 17 columns]
+2025-03-03 22:12:24,440 - src.data_loader - INFO - 
+           state_id store_id dept_id  ... event_type_1 event_name_2  event_type_2
+date                                  ...                                        
+2015-01-01  STATE_1  STORE_1  DEPT_1  ...         None         None          None
+2015-01-01  STATE_2  STORE_2  DEPT_2  ...         None         None          None
+2015-01-02  STATE_1  STORE_1  DEPT_1  ...         None         None          None
+2015-01-02  STATE_2  STORE_2  DEPT_2  ...         None         None          None
+
+[4 rows x 17 columns]
+2025-03-03 22:12:24,440 - src.data_loader - INFO - 
+Validation data preview:
+2025-03-03 22:12:24,440 - src.data_loader - INFO - 
+Validation data preview:
+2025-03-03 22:12:24,442 - src.data_loader - INFO - 
+Empty DataFrame
+Columns: [state_id, store_id, dept_id, cat_id, item_id, wm_yr_wk, d, sales, sell_price, year, month, wday, weekday, event_name_1, event_type_1, event_name_2, event_type_2]
+Index: []
+2025-03-03 22:12:24,442 - src.data_loader - INFO - 
+Empty DataFrame
+Columns: [state_id, store_id, dept_id, cat_id, item_id, wm_yr_wk, d, sales, sell_price, year, month, wday, weekday, event_name_1, event_type_1, event_name_2, event_type_2]
+Index: []
+2025-03-03 22:12:24,442 - src.data_loader - INFO - Saving datasets to temp directory
+2025-03-03 22:12:24,442 - src.data_loader - INFO - Saving datasets to temp directory
+2025-03-03 22:12:24,493 - src.data_loader - INFO - Validation dataset saved to: /private/var/folders/b5/qz8x1m_510q3zk9lktbr3gx40000gn/T/pytest-of-ricardoheredia/pytest-7/test_save_datasets0/temp/validation.parquet
+2025-03-03 22:12:24,493 - src.data_loader - INFO - Validation dataset saved to: /private/var/folders/b5/qz8x1m_510q3zk9lktbr3gx40000gn/T/pytest-of-ricardoheredia/pytest-7/test_save_datasets0/temp/validation.parquet
+2025-03-03 22:12:24,502 - src.data_loader - INFO - Training dataset saved to: /private/var/folders/b5/qz8x1m_510q3zk9lktbr3gx40000gn/T/pytest-of-ricardoheredia/pytest-7/test_save_datasets0/temp/work.parquet
+2025-03-03 22:12:24,502 - src.data_loader - INFO - Training dataset saved to: /private/var/folders/b5/qz8x1m_510q3zk9lktbr3gx40000gn/T/pytest-of-ricardoheredia/pytest-7/test_save_datasets0/temp/work.parquet
+2025-03-03 22:12:24,503 - src.data_loader - INFO - Dataset saving test completed successfully
+2025-03-03 22:12:24,503 - src.data_loader - INFO - Dataset saving test completed successfully
+2025-03-03 22:12:24,505 - src.data_loader - INFO - Testing complete data processing pipeline
+2025-03-03 22:12:24,505 - src.data_loader - INFO - Testing complete data processing pipeline
+2025-03-03 22:12:24,505 - src.data_loader - INFO - Starting data processing pipeline
+2025-03-03 22:12:24,505 - src.data_loader - INFO - Starting data processing pipeline
+2025-03-03 22:12:24,506 - src.data_loader - INFO - Attempting to connect to database at: /Users/ricardoheredia/Desktop/retail-forecasting/data/raw/supermarket.db
+2025-03-03 22:12:24,506 - src.data_loader - INFO - Attempting to connect to database at: /Users/ricardoheredia/Desktop/retail-forecasting/data/raw/supermarket.db
+2025-03-03 22:12:24,506 - src.data_loader - INFO - Database connection established successfully
+2025-03-03 22:12:24,506 - src.data_loader - INFO - Database connection established successfully
+2025-03-03 22:12:24,507 - src.data_loader - INFO - Starting to load tables from database
+2025-03-03 22:12:24,507 - src.data_loader - INFO - Starting to load tables from database
+2025-03-03 22:12:25,005 - src.data_loader - INFO - All tables loaded successfully
+2025-03-03 22:12:25,005 - src.data_loader - INFO - All tables loaded successfully
+2025-03-03 22:12:25,006 - src.data_loader - INFO - 
+Calendar data preview:
+2025-03-03 22:12:25,006 - src.data_loader - INFO - 
+Calendar data preview:
+2025-03-03 22:12:25,013 - src.data_loader - INFO - 
+         date  wm_yr_wk    weekday  ...  event_type_1  event_name_2  event_type_2
+0  2013-01-01     11249    Tuesday  ...      National          None          None
+1  2013-01-02     11249  Wednesday  ...          None          None          None
+2  2013-01-03     11249   Thursday  ...          None          None          None
+3  2013-01-04     11249     Friday  ...          None          None          None
+4  2013-01-05     11250   Saturday  ...          None          None          None
+
+[5 rows x 11 columns]
+2025-03-03 22:12:25,013 - src.data_loader - INFO - 
+         date  wm_yr_wk    weekday  ...  event_type_1  event_name_2  event_type_2
+0  2013-01-01     11249    Tuesday  ...      National          None          None
+1  2013-01-02     11249  Wednesday  ...          None          None          None
+2  2013-01-03     11249   Thursday  ...          None          None          None
+3  2013-01-04     11249     Friday  ...          None          None          None
+4  2013-01-05     11250   Saturday  ...          None          None          None
+
+[5 rows x 11 columns]
+2025-03-03 22:12:25,013 - src.data_loader - INFO - 
+Sales data preview:
+2025-03-03 22:12:25,013 - src.data_loader - INFO - 
+Sales data preview:
+2025-03-03 22:12:25,058 - src.data_loader - INFO - 
+                            id      item_id  dept_id  ... d_1796 d_1797 d_1798
+0  FOODS_3_090_CA_3_validation  FOODS_3_090  FOODS_3  ...      0      0      0
+1  FOODS_3_120_CA_3_validation  FOODS_3_120  FOODS_3  ...     73     76     97
+2  FOODS_3_202_CA_3_validation  FOODS_3_202  FOODS_3  ...     13     26     47
+3  FOODS_3_252_CA_3_validation  FOODS_3_252  FOODS_3  ...     29     34     27
+4  FOODS_3_288_CA_3_validation  FOODS_3_288  FOODS_3  ...     31     46     36
+
+[5 rows x 1101 columns]
+2025-03-03 22:12:25,058 - src.data_loader - INFO - 
+                            id      item_id  dept_id  ... d_1796 d_1797 d_1798
+0  FOODS_3_090_CA_3_validation  FOODS_3_090  FOODS_3  ...      0      0      0
+1  FOODS_3_120_CA_3_validation  FOODS_3_120  FOODS_3  ...     73     76     97
+2  FOODS_3_202_CA_3_validation  FOODS_3_202  FOODS_3  ...     13     26     47
+3  FOODS_3_252_CA_3_validation  FOODS_3_252  FOODS_3  ...     29     34     27
+4  FOODS_3_288_CA_3_validation  FOODS_3_288  FOODS_3  ...     31     46     36
+
+[5 rows x 1101 columns]
+2025-03-03 22:12:25,059 - src.data_loader - INFO - 
+Prices data preview:
+2025-03-03 22:12:25,059 - src.data_loader - INFO - 
+Prices data preview:
+2025-03-03 22:12:25,063 - src.data_loader - INFO - 
+  store_id      item_id  wm_yr_wk  sell_price
+0     CA_3  FOODS_3_090     11249        1.25
+1     CA_3  FOODS_3_090     11250        1.25
+2     CA_3  FOODS_3_090     11251        1.25
+3     CA_3  FOODS_3_090     11252        1.25
+4     CA_3  FOODS_3_090     11301        1.38
+2025-03-03 22:12:25,063 - src.data_loader - INFO - 
+  store_id      item_id  wm_yr_wk  sell_price
+0     CA_3  FOODS_3_090     11249        1.25
+1     CA_3  FOODS_3_090     11250        1.25
+2     CA_3  FOODS_3_090     11251        1.25
+3     CA_3  FOODS_3_090     11252        1.25
+4     CA_3  FOODS_3_090     11301        1.38
+2025-03-03 22:12:25,063 - src.data_loader - INFO - Transforming sales data from wide to long format
+2025-03-03 22:12:25,063 - src.data_loader - INFO - Transforming sales data from wide to long format
+2025-03-03 22:12:25,117 - src.data_loader - INFO - Sales data transformation completed
+2025-03-03 22:12:25,117 - src.data_loader - INFO - Sales data transformation completed
+2025-03-03 22:12:25,117 - src.data_loader - INFO - 
+Transformed sales data preview:
+2025-03-03 22:12:25,117 - src.data_loader - INFO - 
+Transformed sales data preview:
+2025-03-03 22:12:25,122 - src.data_loader - INFO - 
+       item_id  dept_id cat_id store_id state_id      d  sales
+0  FOODS_3_090  FOODS_3  FOODS     CA_3       CA  d_704      0
+1  FOODS_3_120  FOODS_3  FOODS     CA_3       CA  d_704      0
+2  FOODS_3_202  FOODS_3  FOODS     CA_3       CA  d_704     20
+3  FOODS_3_252  FOODS_3  FOODS     CA_3       CA  d_704     34
+4  FOODS_3_288  FOODS_3  FOODS     CA_3       CA  d_704      0
+2025-03-03 22:12:25,122 - src.data_loader - INFO - 
+       item_id  dept_id cat_id store_id state_id      d  sales
+0  FOODS_3_090  FOODS_3  FOODS     CA_3       CA  d_704      0
+1  FOODS_3_120  FOODS_3  FOODS     CA_3       CA  d_704      0
+2  FOODS_3_202  FOODS_3  FOODS     CA_3       CA  d_704     20
+3  FOODS_3_252  FOODS_3  FOODS     CA_3       CA  d_704     34
+4  FOODS_3_288  FOODS_3  FOODS     CA_3       CA  d_704      0
+2025-03-03 22:12:25,123 - src.data_loader - INFO - Starting table merging process
+2025-03-03 22:12:25,123 - src.data_loader - INFO - Starting table merging process
+2025-03-03 22:12:25,155 - src.data_loader - INFO - Table merging completed successfully
+2025-03-03 22:12:25,155 - src.data_loader - INFO - Table merging completed successfully
+2025-03-03 22:12:25,156 - src.data_loader - INFO - 
+Merged data preview:
+2025-03-03 22:12:25,156 - src.data_loader - INFO - 
+Merged data preview:
+2025-03-03 22:12:25,167 - src.data_loader - INFO - 
+           state_id store_id  dept_id  ... event_type_1 event_name_2  event_type_2
+date                                   ...                                        
+2013-01-01       CA     CA_3  FOODS_3  ...     National         None          None
+2013-01-01       CA     CA_3  FOODS_3  ...     National         None          None
+2013-01-01       CA     CA_3  FOODS_3  ...     National         None          None
+2013-01-01       CA     CA_3  FOODS_3  ...     National         None          None
+2013-01-01       CA     CA_3  FOODS_3  ...     National         None          None
+
+[5 rows x 17 columns]
+2025-03-03 22:12:25,167 - src.data_loader - INFO - 
+           state_id store_id  dept_id  ... event_type_1 event_name_2  event_type_2
+date                                   ...                                        
+2013-01-01       CA     CA_3  FOODS_3  ...     National         None          None
+2013-01-01       CA     CA_3  FOODS_3  ...     National         None          None
+2013-01-01       CA     CA_3  FOODS_3  ...     National         None          None
+2013-01-01       CA     CA_3  FOODS_3  ...     National         None          None
+2013-01-01       CA     CA_3  FOODS_3  ...     National         None          None
+
+[5 rows x 17 columns]
+2025-03-03 22:12:25,168 - src.data_loader - INFO - Creating training/validation split
+2025-03-03 22:12:25,168 - src.data_loader - INFO - Creating training/validation split
+2025-03-03 22:12:25,170 - src.data_loader - INFO - Split completed - Training shape: (21280, 17), Validation shape: (620, 17)
+2025-03-03 22:12:25,170 - src.data_loader - INFO - Split completed - Training shape: (21280, 17), Validation shape: (620, 17)
+2025-03-03 22:12:25,170 - src.data_loader - INFO - 
+Training data preview:
+2025-03-03 22:12:25,170 - src.data_loader - INFO - 
+Training data preview:
+2025-03-03 22:12:25,182 - src.data_loader - INFO - 
+           state_id store_id  dept_id  ... event_type_1 event_name_2  event_type_2
+date                                   ...                                        
+2013-01-01       CA     CA_3  FOODS_3  ...     National         None          None
+2013-01-01       CA     CA_3  FOODS_3  ...     National         None          None
+2013-01-01       CA     CA_3  FOODS_3  ...     National         None          None
+2013-01-01       CA     CA_3  FOODS_3  ...     National         None          None
+2013-01-01       CA     CA_3  FOODS_3  ...     National         None          None
+
+[5 rows x 17 columns]
+2025-03-03 22:12:25,182 - src.data_loader - INFO - 
+           state_id store_id  dept_id  ... event_type_1 event_name_2  event_type_2
+date                                   ...                                        
+2013-01-01       CA     CA_3  FOODS_3  ...     National         None          None
+2013-01-01       CA     CA_3  FOODS_3  ...     National         None          None
+2013-01-01       CA     CA_3  FOODS_3  ...     National         None          None
+2013-01-01       CA     CA_3  FOODS_3  ...     National         None          None
+2013-01-01       CA     CA_3  FOODS_3  ...     National         None          None
+
+[5 rows x 17 columns]
+2025-03-03 22:12:25,183 - src.data_loader - INFO - 
+Validation data preview:
+2025-03-03 22:12:25,183 - src.data_loader - INFO - 
+Validation data preview:
+2025-03-03 22:12:25,195 - src.data_loader - INFO - 
+           state_id store_id  dept_id  ... event_type_1 event_name_2  event_type_2
+date                                   ...                                        
+2015-12-01       CA     CA_3  FOODS_3  ...         None         None          None
+2015-12-01       CA     CA_3  FOODS_3  ...         None         None          None
+2015-12-01       CA     CA_3  FOODS_3  ...         None         None          None
+2015-12-01       CA     CA_3  FOODS_3  ...         None         None          None
+2015-12-01       CA     CA_3  FOODS_3  ...         None         None          None
+
+[5 rows x 17 columns]
+2025-03-03 22:12:25,195 - src.data_loader - INFO - 
+           state_id store_id  dept_id  ... event_type_1 event_name_2  event_type_2
+date                                   ...                                        
+2015-12-01       CA     CA_3  FOODS_3  ...         None         None          None
+2015-12-01       CA     CA_3  FOODS_3  ...         None         None          None
+2015-12-01       CA     CA_3  FOODS_3  ...         None         None          None
+2015-12-01       CA     CA_3  FOODS_3  ...         None         None          None
+2015-12-01       CA     CA_3  FOODS_3  ...         None         None          None
+
+[5 rows x 17 columns]
+2025-03-03 22:12:25,195 - src.data_loader - INFO - Saving datasets to temp directory
+2025-03-03 22:12:25,195 - src.data_loader - INFO - Saving datasets to temp directory
+2025-03-03 22:12:25,204 - src.data_loader - INFO - Validation dataset saved to: /Users/ricardoheredia/Desktop/retail-forecasting/src/temp/validation.parquet
+2025-03-03 22:12:25,204 - src.data_loader - INFO - Validation dataset saved to: /Users/ricardoheredia/Desktop/retail-forecasting/src/temp/validation.parquet
+2025-03-03 22:12:25,231 - src.data_loader - INFO - Training dataset saved to: /Users/ricardoheredia/Desktop/retail-forecasting/src/temp/work.parquet
+2025-03-03 22:12:25,231 - src.data_loader - INFO - Training dataset saved to: /Users/ricardoheredia/Desktop/retail-forecasting/src/temp/work.parquet
+2025-03-03 22:12:25,232 - src.data_loader - INFO - Data processing pipeline completed successfully
+2025-03-03 22:12:25,232 - src.data_loader - INFO - Data processing pipeline completed successfully
+2025-03-03 22:12:25,234 - src.data_loader - INFO - Complete pipeline test completed successfully
+2025-03-03 22:12:25,234 - src.data_loader - INFO - Complete pipeline test completed successfully
+2025-03-03 22:14:32,723 - src.data_loader - INFO - Transforming sales data from wide to long format
+2025-03-03 22:14:33,167 - src.data_loader - INFO - Transforming sales data from wide to long format
+2025-03-03 22:14:33,487 - src.data_loader - INFO - Transforming sales data from wide to long format
+2025-03-03 22:14:33,791 - src.data_loader - INFO - Attempting to connect to database at: nonexistent.db
+2025-03-03 22:14:33,792 - src.data_loader - ERROR - Database file not found at: nonexistent.db
+2025-03-03 23:02:38,427 - __main__ - INFO - Starting main script execution
+2025-03-03 23:02:38,431 - __main__ - INFO - Starting data processing pipeline
+2025-03-03 23:02:38,431 - __main__ - INFO - Attempting to connect to database at: /Users/ricardoheredia/Desktop/retail-forecasting/data/raw/supermarket.db
+2025-03-03 23:02:38,497 - __main__ - INFO - Database connection established successfully
+2025-03-03 23:02:38,497 - __main__ - INFO - Starting to load tables from database
+2025-03-03 23:02:39,647 - __main__ - INFO - All tables loaded successfully
+2025-03-03 23:02:39,648 - __main__ - INFO - 
+Calendar data preview:
+2025-03-03 23:02:39,694 - __main__ - INFO - 
+         date  wm_yr_wk    weekday  wday  month  ...      d event_name_1 event_type_1 event_name_2 event_type_2
+0  2013-01-01     11249    Tuesday     4      1  ...  d_704      NewYear     National         None         None
+1  2013-01-02     11249  Wednesday     5      1  ...  d_705         None         None         None         None
+2  2013-01-03     11249   Thursday     6      1  ...  d_706         None         None         None         None
+3  2013-01-04     11249     Friday     7      1  ...  d_707         None         None         None         None
+4  2013-01-05     11250   Saturday     1      1  ...  d_708         None         None         None         None
+
+[5 rows x 11 columns]
+2025-03-03 23:02:39,698 - __main__ - INFO - 
+Sales data preview:
+2025-03-03 23:02:40,011 - __main__ - INFO - 
+                            id      item_id  dept_id cat_id  ... d_1795 d_1796  d_1797  d_1798
+0  FOODS_3_090_CA_3_validation  FOODS_3_090  FOODS_3  FOODS  ...      6      0       0       0
+1  FOODS_3_120_CA_3_validation  FOODS_3_120  FOODS_3  FOODS  ...    104     73      76      97
+2  FOODS_3_202_CA_3_validation  FOODS_3_202  FOODS_3  FOODS  ...     27     13      26      47
+3  FOODS_3_252_CA_3_validation  FOODS_3_252  FOODS_3  FOODS  ...     32     29      34      27
+4  FOODS_3_288_CA_3_validation  FOODS_3_288  FOODS_3  FOODS  ...     40     31      46      36
+
+[5 rows x 1101 columns]
+2025-03-03 23:02:40,012 - __main__ - INFO - 
+Prices data preview:
+2025-03-03 23:02:40,021 - __main__ - INFO - 
+  store_id      item_id  wm_yr_wk  sell_price
+0     CA_3  FOODS_3_090     11249        1.25
+1     CA_3  FOODS_3_090     11250        1.25
+2     CA_3  FOODS_3_090     11251        1.25
+3     CA_3  FOODS_3_090     11252        1.25
+4     CA_3  FOODS_3_090     11301        1.38
+2025-03-03 23:02:40,022 - __main__ - INFO - Transforming sales data from wide to long format
+2025-03-03 23:02:40,167 - __main__ - INFO - Sales data transformation completed
+2025-03-03 23:02:40,168 - __main__ - INFO - 
+Transformed sales data preview:
+2025-03-03 23:02:40,183 - __main__ - INFO - 
+       item_id  dept_id cat_id store_id state_id      d  sales
+0  FOODS_3_090  FOODS_3  FOODS     CA_3       CA  d_704      0
+1  FOODS_3_120  FOODS_3  FOODS     CA_3       CA  d_704      0
+2  FOODS_3_202  FOODS_3  FOODS     CA_3       CA  d_704     20
+3  FOODS_3_252  FOODS_3  FOODS     CA_3       CA  d_704     34
+4  FOODS_3_288  FOODS_3  FOODS     CA_3       CA  d_704      0
+2025-03-03 23:02:40,184 - __main__ - INFO - Starting table merging process
+2025-03-03 23:02:40,243 - __main__ - INFO - Table merging completed successfully
+2025-03-03 23:02:40,243 - __main__ - INFO - 
+Merged data preview:
+2025-03-03 23:02:40,302 - __main__ - INFO - 
+           state_id store_id  dept_id cat_id  ... event_name_1  event_type_1 event_name_2  event_type_2
+date                                          ...                                                      
+2013-01-01       CA     CA_3  FOODS_3  FOODS  ...      NewYear      National         None          None
+2013-01-01       CA     CA_3  FOODS_3  FOODS  ...      NewYear      National         None          None
+2013-01-01       CA     CA_3  FOODS_3  FOODS  ...      NewYear      National         None          None
+2013-01-01       CA     CA_3  FOODS_3  FOODS  ...      NewYear      National         None          None
+2013-01-01       CA     CA_3  FOODS_3  FOODS  ...      NewYear      National         None          None
+
+[5 rows x 17 columns]
+2025-03-03 23:02:40,303 - __main__ - INFO - Creating training/validation split
+2025-03-03 23:02:40,307 - __main__ - INFO - Split completed - Training shape: (21280, 17), Validation shape: (620, 17)
+2025-03-03 23:02:40,307 - __main__ - INFO - 
+Training data preview:
+2025-03-03 23:02:40,333 - __main__ - INFO - 
+           state_id store_id  dept_id cat_id  ... event_name_1  event_type_1 event_name_2  event_type_2
+date                                          ...                                                      
+2013-01-01       CA     CA_3  FOODS_3  FOODS  ...      NewYear      National         None          None
+2013-01-01       CA     CA_3  FOODS_3  FOODS  ...      NewYear      National         None          None
+2013-01-01       CA     CA_3  FOODS_3  FOODS  ...      NewYear      National         None          None
+2013-01-01       CA     CA_3  FOODS_3  FOODS  ...      NewYear      National         None          None
+2013-01-01       CA     CA_3  FOODS_3  FOODS  ...      NewYear      National         None          None
+
+[5 rows x 17 columns]
+2025-03-03 23:02:40,334 - __main__ - INFO - 
+Validation data preview:
+2025-03-03 23:02:40,366 - __main__ - INFO - 
+           state_id store_id  dept_id cat_id  ... event_name_1  event_type_1 event_name_2  event_type_2
+date                                          ...                                                      
+2015-12-01       CA     CA_3  FOODS_3  FOODS  ...         None          None         None          None
+2015-12-01       CA     CA_3  FOODS_3  FOODS  ...         None          None         None          None
+2015-12-01       CA     CA_3  FOODS_3  FOODS  ...         None          None         None          None
+2015-12-01       CA     CA_3  FOODS_3  FOODS  ...         None          None         None          None
+2015-12-01       CA     CA_3  FOODS_3  FOODS  ...         None          None         None          None
+
+[5 rows x 17 columns]
+2025-03-03 23:02:40,367 - __main__ - INFO - Saving datasets to temp directory
+2025-03-03 23:02:40,426 - __main__ - INFO - Validation dataset saved to: /Users/ricardoheredia/Desktop/retail-forecasting/src/temp/validation.parquet
+2025-03-03 23:02:40,475 - __main__ - INFO - Training dataset saved to: /Users/ricardoheredia/Desktop/retail-forecasting/src/temp/work.parquet
+2025-03-03 23:02:40,475 - __main__ - INFO - Data processing pipeline completed successfully
+2025-03-03 23:02:40,478 - __main__ - INFO - Script execution completed successfully
+2025-03-03 23:16:09,613 - data_loader - INFO - Attempting to connect to database at: /private/var/folders/b5/qz8x1m_510q3zk9lktbr3gx40000gn/T/pytest-of-ricardoheredia/pytest-8/test_connect_to_database0/test.db
+2025-03-03 23:16:09,622 - data_loader - INFO - Database connection established successfully
+2025-03-03 23:16:09,628 - data_loader - INFO - Attempting to connect to database at: nonexistent.db
+2025-03-03 23:16:09,628 - data_loader - ERROR - Database file not found at: nonexistent.db
+2025-03-03 23:16:09,723 - data_loader - INFO - Starting to load tables from database
+2025-03-03 23:16:09,788 - data_loader - INFO - All tables loaded successfully
+2025-03-03 23:16:09,789 - data_loader - INFO - 
+Calendar data preview:
+2025-03-03 23:16:09,802 - data_loader - INFO - 
+         date    d
+0  2015-11-30  d_1
+2025-03-03 23:16:09,802 - data_loader - INFO - 
+Sales data preview:
+2025-03-03 23:16:09,813 - data_loader - INFO - 
+  item_id  d_1
+0  ITEM_1   10
+2025-03-03 23:16:09,813 - data_loader - INFO - 
+Prices data preview:
+2025-03-03 23:16:09,826 - data_loader - INFO - 
+  store_id item_id
+0  STORE_1  ITEM_1
+2025-03-03 23:16:09,841 - data_loader - INFO - Transforming sales data from wide to long format
+2025-03-03 23:16:10,623 - data_loader - INFO - Transforming sales data from wide to long format
+2025-03-03 23:16:11,011 - data_loader - INFO - Creating training/validation split
+2025-03-03 23:16:11,601 - data_loader - INFO - Saving datasets to temp directory
+2025-03-03 23:16:11,651 - data_loader - INFO - Validation dataset saved to: /private/var/folders/b5/qz8x1m_510q3zk9lktbr3gx40000gn/T/pytest-of-ricardoheredia/pytest-8/test_save_datasets0/validation.parquet
+2025-03-03 23:16:11,653 - data_loader - INFO - Training dataset saved to: /private/var/folders/b5/qz8x1m_510q3zk9lktbr3gx40000gn/T/pytest-of-ricardoheredia/pytest-8/test_save_datasets0/work.parquet
+2025-03-03 23:16:11,881 - data_loader - INFO - Starting data processing pipeline
+2025-03-03 23:16:11,881 - data_loader - INFO - Data processing pipeline completed successfully
+2025-03-03 23:16:11,886 - data_loader - INFO - Starting data processing pipeline
+2025-03-03 23:18:20,039 - data_loader - INFO - Attempting to connect to database at: /private/var/folders/b5/qz8x1m_510q3zk9lktbr3gx40000gn/T/pytest-of-ricardoheredia/pytest-9/test_connect_to_database0/test.db
+2025-03-03 23:18:20,046 - data_loader - INFO - Database connection established successfully
+2025-03-03 23:18:20,049 - data_loader - INFO - Attempting to connect to database at: nonexistent.db
+2025-03-03 23:18:20,049 - data_loader - ERROR - Database file not found at: nonexistent.db
+2025-03-03 23:18:20,090 - data_loader - INFO - Starting to load tables from database
+2025-03-03 23:18:20,114 - data_loader - INFO - All tables loaded successfully
+2025-03-03 23:18:20,114 - data_loader - INFO - 
+Calendar data preview:
+2025-03-03 23:18:20,120 - data_loader - INFO - 
+         date    d
+0  2015-11-30  d_1
+2025-03-03 23:18:20,120 - data_loader - INFO - 
+Sales data preview:
+2025-03-03 23:18:20,123 - data_loader - INFO - 
+  item_id  d_1
+0  ITEM_1   10
+2025-03-03 23:18:20,123 - data_loader - INFO - 
+Prices data preview:
+2025-03-03 23:18:20,127 - data_loader - INFO - 
+  store_id item_id
+0  STORE_1  ITEM_1
+2025-03-03 23:18:20,131 - data_loader - INFO - Transforming sales data from wide to long format
+2025-03-03 23:18:20,136 - data_loader - INFO - Sales data transformation completed
+2025-03-03 23:18:20,136 - data_loader - INFO - 
+Transformed sales data preview:
+2025-03-03 23:18:20,146 - data_loader - INFO - 
+  item_id store_id dept_id cat_id state_id    d  sales
+0  ITEM_1  STORE_1  DEPT_1  CAT_1       CA  d_1     10
+1  ITEM_2  STORE_1  DEPT_1  CAT_1       CA  d_1      5
+2  ITEM_1  STORE_1  DEPT_1  CAT_1       CA  d_2     15
+3  ITEM_2  STORE_1  DEPT_1  CAT_1       CA  d_2      8
+2025-03-03 23:18:20,150 - data_loader - INFO - Transforming sales data from wide to long format
+2025-03-03 23:18:20,156 - data_loader - INFO - Sales data transformation completed
+2025-03-03 23:18:20,156 - data_loader - INFO - 
+Transformed sales data preview:
+2025-03-03 23:18:20,183 - data_loader - INFO - 
+  item_id store_id dept_id cat_id state_id    d  sales
+0  ITEM_1  STORE_1  DEPT_1  CAT_1       CA  d_1     10
+1  ITEM_2  STORE_1  DEPT_1  CAT_1       CA  d_1      5
+2  ITEM_1  STORE_1  DEPT_1  CAT_1       CA  d_2     15
+3  ITEM_2  STORE_1  DEPT_1  CAT_1       CA  d_2      8
+2025-03-03 23:18:20,184 - data_loader - INFO - Starting table merging process
+2025-03-03 23:18:20,205 - data_loader - INFO - Table merging completed successfully
+2025-03-03 23:18:20,205 - data_loader - INFO - 
+Merged data preview:
+2025-03-03 23:18:20,234 - data_loader - INFO - 
+           state_id store_id dept_id  ... event_type_1 event_name_2  event_type_2
+date                                  ...                                        
+2015-11-30       CA  STORE_1  DEPT_1  ...         None         None          None
+2015-11-30       CA  STORE_1  DEPT_1  ...         None         None          None
+2015-12-01       CA  STORE_1  DEPT_1  ...      Holiday         None          None
+2015-12-01       CA  STORE_1  DEPT_1  ...      Holiday         None          None
+
+[4 rows x 17 columns]
+2025-03-03 23:18:20,238 - data_loader - INFO - Creating training/validation split
+2025-03-03 23:18:20,240 - data_loader - INFO - Split completed - Training shape: (30, 1), Validation shape: (31, 1)
+2025-03-03 23:18:20,240 - data_loader - INFO - 
+Training data preview:
+2025-03-03 23:18:20,249 - data_loader - INFO - 
+            sales
+2015-11-01      0
+2015-11-02      1
+2015-11-03      2
+2015-11-04      3
+2015-11-05      4
+2025-03-03 23:18:20,249 - data_loader - INFO - 
+Validation data preview:
+2025-03-03 23:18:20,256 - data_loader - INFO - 
+            sales
+2015-12-01     30
+2015-12-02     31
+2015-12-03     32
+2015-12-04     33
+2015-12-05     34
+2025-03-03 23:18:20,274 - data_loader - INFO - Saving datasets to temp directory
+2025-03-03 23:18:20,375 - data_loader - INFO - Validation dataset saved to: /private/var/folders/b5/qz8x1m_510q3zk9lktbr3gx40000gn/T/pytest-of-ricardoheredia/pytest-9/test_save_datasets0/validation.parquet
+2025-03-03 23:18:20,378 - data_loader - INFO - Training dataset saved to: /private/var/folders/b5/qz8x1m_510q3zk9lktbr3gx40000gn/T/pytest-of-ricardoheredia/pytest-9/test_save_datasets0/work.parquet
+2025-03-03 23:18:20,461 - data_loader - INFO - Starting data processing pipeline
+2025-03-03 23:18:20,462 - data_loader - INFO - Data processing pipeline completed successfully
+2025-03-03 23:18:20,466 - data_loader - INFO - Starting data processing pipeline
