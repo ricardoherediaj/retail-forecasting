@@ -55,3 +55,7 @@ data/raw/*.db
 data/transformed/*.parquet
 data/validation/*.parquet
 tests/data/*.parquet
+# Development artifacts
+.cursor/
+mlartifacts/
+mlruns/
